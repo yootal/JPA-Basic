@@ -14,7 +14,6 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        // code
         try {
 //            Member member1 = new Member();
 //            member1.setId(1L);
@@ -70,26 +69,60 @@ public class JpaMain {
             // 영속 -> 준영속
             // detach(), clear(), close()
 
-            Member memberA = new Member();
-            memberA.setUsername("A");
+//            Member memberA = new Member();
+//            memberA.setUsername("A");
+//
+//            Member memberB = new Member();
+//            memberB.setUsername("B");
+//
+//            Member memberC = new Member();
+//            memberC.setUsername("C");
+//
+//            System.out.println("==========================");
+//
+//            em.persist(memberA); //1, 51
+//            em.persist(memberB); //MEM
+//            em.persist(memberC); //MEM
+//
+//            System.out.println("memberA.getId() = " + memberA.getId());
+//            System.out.println("memberB.getId() = " + memberB.getId());
+//            System.out.println("memberC.getId() = " + memberC.getId());
+//
+//            System.out.println("==========================");
 
-            Member memberB = new Member();
-            memberB.setUsername("B");
+            // 테이블은 외래 키로 조인, 객체는 참조를 사용해 연관 객체 찾음
 
-            Member memberC = new Member();
-            memberC.setUsername("C");
+            // 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            System.out.println("==========================");
+            Member member = new Member();
+            member.setUsername("member1");
+//            member.changeTeam(team);
+            em.persist(member);
 
-            em.persist(memberA); //1, 51
-            em.persist(memberB); //MEM
-            em.persist(memberC); //MEM
+            // 객체 지향적으로 양쪽에 넣어주는게 맞다
+            // 연관관계 편의 메서드 활용
+            // 양방향 매핑시에 무한 루프 주의
+//            team.getMembers().add(member);
+            team.addMember(member);
 
-            System.out.println("memberA.getId() = " + memberA.getId());
-            System.out.println("memberB.getId() = " + memberB.getId());
-            System.out.println("memberC.getId() = " + memberC.getId());
+            em.flush();
+            em.clear();
 
-            System.out.println("==========================");
+//            Member findMember = em.find(Member.class, member.getId());
+//            Team findTeam = findMember.getTeam();
+//            System.out.println("findTeam.getName() = " + findTeam.getName());
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
+            for (Member m : members) {
+                System.out.println("m.getUsername() = " + m.getUsername());
+            }
+            // 단방향 매핑만으로도 이미 연관관계 매핑은 완료
+            // 양방향 매핑은 반대 방향으로 조회(객체 그래프 탐색) 기능이 추가된 것 뿐
+            // JPQL 역방향으로 탐색할 일이 많음
+            // 단뱡향 매핑을 잘하고 양방향은 필요할 때 추가
 
             tx.commit();
         } catch (Exception e) {

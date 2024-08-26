@@ -9,20 +9,26 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-//@SequenceGenerator(
-//        name = "MEMBER_SEQ_GENERATOR",
-//        sequenceName = "MEMBER_SEQ", //매핑할 데이터베이스 시퀀스 이름
-//        initialValue = 1, allocationSize = 50
-//)
 public class Member {
-    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-//            generator = "MEMBER_SEQ_GENERATOR")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
 
-    @Column(name = "name", nullable = false) // DB 저장 이름
+    @Column(name = "USERNAME", nullable = false) // DB 저장 이름
     private String username;
+
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
+
+//    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TEAM_ID") // 외래키
+    private Team team;
+
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this);
+//    }
 
     private Integer age;
 
