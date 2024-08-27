@@ -4,8 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import jpa.basic.jpashop.domain.Order;
-import jpa.basic.jpashop.domain.OrderItem;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -15,14 +13,6 @@ public class JpaMain {
         tx.begin();
 
         try {
-
-//            Order order = em.find(Order.class, 1L);
-//            Long memberId = order.getMemberId();
-//            Member member = em.find(Member.class, memberId);
-
-            Order order = new Order();
-            order.addOrderItem(new OrderItem());
-
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
