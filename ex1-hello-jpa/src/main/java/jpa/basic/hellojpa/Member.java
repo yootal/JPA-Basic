@@ -43,11 +43,6 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "MEMBER_ID")
     private List<AddressEntity> addressHistory = new ArrayList<>();
 
-//    연관관계 메서드
-//    public void changeTeam(Team team) {
-//        this.team = team;
-//        team.getMembers().add(this);
-//    }
 
     @OneToOne
     @JoinColumn(name = "LOCKER_ID")
@@ -56,7 +51,6 @@ public class Member extends BaseEntity {
 //    @ManyToMany
 //    @JoinTable(name = "MEMBER_PRODUCT")
 //    private List<Product> products = new ArrayList<>();
-
     @OneToMany(mappedBy = "member")
     private List<MemberProduct> memberProducts = new ArrayList<>();
 
@@ -65,18 +59,22 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date createdDate;
-
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date lastModifiedDate;
-
     /**
      * Java 8 이상
      * private LocalDate testLocalDate;
      * private LocalDateTime testLocalDateTime;
      */
 
-    @Lob
-    private String description;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date createdDate;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date lastModifiedDate;
+//    @Lob
+//    private String description;
+
+//    연관관계 메서드
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this);
+//    }
 }
